@@ -1,0 +1,306 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Users {
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(510)
+  email           String            @unique @db.VarChar(510)
+  password        String            @db.VarChar(510)
+  dateOfBirth     DateTime          @db.Date
+  phoneNumber     String            @db.VarChar(30)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  userRoles       UserRoles[]
+  userSfiaScores  UserSfiaScores[]
+  otp             Otp?
+  sessions        Sessions?
+  candidates      Candidates[]
+  recruiters      Recruiters?
+  jobs            Jobs[]
+  savedJobs       SavedJobs[]
+  jobApplications JobApplications[]
+}
+
+model Roles {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique @db.VarChar(510)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  userRoles       UserRoles[]
+  rolePermissions RolePermissions[]
+}
+
+model UserRoles {
+  userId    Int
+  roleId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     Users    @relation(fields: [userId], references: [id])
+  roles     Roles    @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+}
+
+model SfiaCategories {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique @db.VarChar(510)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  userSfiaScores UserSfiaScores[]
+  jobSfiaScores  JobSfiaScores[]
+}
+
+model UserSfiaScores {
+  userId         Int
+  sfiaCategoryId Int
+  score          Float
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  users          Users          @relation(fields: [userId], references: [id])
+  sfiaCategories SfiaCategories @relation(fields: [sfiaCategoryId], references: [id])
+
+  @@id([userId, sfiaCategoryId])
+}
+
+model Otp {
+  id        Int      @id @default(autoincrement())
+  otp       String   @db.Char(6)
+  expiredAt DateTime
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     Users    @relation(fields: [userId], references: [id])
+}
+
+model SessionTypes {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique @db.VarChar(510)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  sessions  Sessions[]
+}
+
+model Sessions {
+  id            Int          @id @default(autoincrement())
+  expiredAt     DateTime
+  sessionTypeId Int
+  userId        Int          @unique
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  users         Users        @relation(fields: [userId], references: [id])
+  sessionTypes  SessionTypes @relation(fields: [sessionTypeId], references: [id])
+}
+
+model Candidates {
+  id         Int      @id @default(autoincrement())
+  portofolio String?  @db.VarChar(510)
+  aboutMe    String?  @db.Text
+  domicile   String?  @db.Text
+  userId     Int      @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  users      Users    @relation(fields: [userId], references: [id])
+}
+
+model Recruiters {
+  id         Int       @id @default(autoincrement())
+  userId     Int       @unique
+  companyId  Int
+  positionId Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  users      Users     @relation(fields: [userId], references: [id])
+  companies  Companies @relation(fields: [companyId], references: [id])
+  positions  Positions @relation(fields: [positionId], references: [id])
+}
+
+model Positions {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(510)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  recruiters Recruiters[]
+}
+
+model Companies {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(510)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  recruiters Recruiters[]
+}
+
+// model Provinces {
+//   id         Int          @id @default(autoincrement())
+//   name       String       @db.VarChar(510)
+//   createdAt  DateTime     @default(now())
+//   updatedAt  DateTime     @updatedAt
+// }
+
+// model Educations {
+//   id           Int          @id @default(autoincrement())
+//   gpa          Float        @db.DoublePrecision
+//   createdAt    DateTime     @default(now())
+//   updatedAt    DateTime     @updatedAt
+//   candidateId  Int          @unique
+//   universityId Int
+//   majorId      Int
+//   candidates   Candidates   @relation(fields: [candidateId], references: [id])
+//   universities Universities @relation(fields: [universityId], references: [id])
+//   majors       Majors       @relation(fields: [majorId], references: [id])
+// }
+
+// model Universities {
+//   id         Int          @id @default(autoincrement())
+//   name       String       @db.VarChar(510)
+//   createdAt  DateTime     @default(now())
+//   updatedAt  DateTime     @updatedAt
+//   educations Educations[]
+// }
+
+// model Majors {
+//   id         Int          @id @default(autoincrement())
+//   name       String       @db.VarChar(510)
+//   createdAt  DateTime     @default(now())
+//   updatedAt  DateTime     @updatedAt
+//   educations Educations[]
+// }
+
+// model EducationLevel {
+//   id        Int      @id @default(autoincrement())
+//   name      String   @db.VarChar(510)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Documents {
+//   id             Int           @id @default(autoincrement())
+//   name           String        @db.VarChar(510)
+//   byteSize       Int
+//   file           Bytes         @db.ByteA
+//   documentTypeId Int
+//   createdAt      DateTime      @default(now())
+//   updatedAt      DateTime      @updatedAt
+//   documentTypes  DocumentTypes @relation(fields: [documentTypeId], references: [id])
+// }
+
+// model DocumentTypes {
+//   id        Int         @id @default(autoincrement())
+//   name      String      @db.VarChar(510)
+//   createdAt DateTime    @default(now())
+//   updatedAt DateTime    @updatedAt
+//   documents Documents[]
+// }
+
+model Jobs {
+  id               Int               @id @default(autoincrement())
+  title            String            @db.VarChar(510)
+  description      String            @db.Text
+  requirement      String            @db.Text
+  location         String            @db.Text
+  minSalary        Int
+  maxSalary        Int
+  employmentTypeId Int
+  statusId         Int
+  userId           Int
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  employmentTypes  EmploymentTypes   @relation(fields: [employmentTypeId], references: [id])
+  jobStatus        JobStatus         @relation(fields: [statusId], references: [id])
+  users            Users             @relation(fields: [userId], references: [id])
+  jobSfiaScores    JobSfiaScores[]
+  savedJobs        SavedJobs[]
+  jobApplications  JobApplications[]
+}
+
+model JobStatus {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(510)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  jobs      Jobs[]
+}
+
+model EmploymentTypes {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(510)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  jobs      Jobs[]
+}
+
+model JobSfiaScores {
+  jobId          Int
+  sfiaCategoryId Int
+  score          Float
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  jobs           Jobs           @relation(fields: [jobId], references: [id])
+  sfiaCategories SfiaCategories @relation(fields: [sfiaCategoryId], references: [id])
+
+  @@id([jobId, sfiaCategoryId])
+}
+
+model SavedJobs {
+  jobId     Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  jobs      Jobs     @relation(fields: [jobId], references: [id])
+  users     Users    @relation(fields: [userId], references: [id])
+
+  @@id([jobId, userId])
+}
+
+model JobApplicationStatus {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique @db.VarChar(510)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  jobApplications JobApplications[]
+}
+
+model JobApplications {
+  jobId                Int
+  userId               Int
+  statusId             Int
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  jobs                 Jobs                 @relation(fields: [jobId], references: [id])
+  users                Users                @relation(fields: [userId], references: [id])
+  jobApplicationStatus JobApplicationStatus @relation(fields: [statusId], references: [id])
+
+  @@id([jobId, userId])
+}
+
+model Permissions {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique @db.VarChar(510)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  rolePermissions RolePermissions[]
+}
+
+model RolePermissions {
+  roleId       Int
+  permissionId Int
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  roles        Roles       @relation(fields: [roleId], references: [id])
+  permissions  Permissions @relation(fields: [permissionId], references: [id])
+
+  @@id([roleId, permissionId])
+}

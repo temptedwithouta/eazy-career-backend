@@ -1,0 +1,40 @@
+{
+  "name": "eazy-career",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "npx nodemon --legacy-watch index.ts",
+    "start": "node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "@types/express": "^5.0.1",
+    "@types/http-errors": "^2.0.4",
+    "@types/node": "^22.15.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "zod": "^3.24.3",
+    "@types/cors": "^2.8.17",
+    "winston": "^3.17.0",
+    "jose": "^6.0.10",
+    "bcrypt": "^5.1.1",
+    "@types/bcrypt": "^5.0.2",
+    "nodemailer": "^7.0.2",
+    "@types/nodemailer": "^6.4.17",
+    "express-rate-limit": "^7.5.1"
+  },
+  "keywords": [],
+  "description": "",
+  "devDependencies": {}
+}
