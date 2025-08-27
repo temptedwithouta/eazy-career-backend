@@ -1,11 +1,11 @@
-import RoleRepository from "../Repository/RoleRepository";
-import UserRoleRepository from "../Repository/UserRoleRepository";
-import SfiaCategoryRepository from "../Repository/SfiaCategoryRepository";
+import RoleRepository from "../../Repository/RoleRepository";
+import UserRoleRepository from "../../Repository/UserRoleRepository";
+import SfiaCategoryRepository from "../../Repository/SfiaCategoryRepository";
 import { Prisma } from "@prisma/client";
-import JobSfiaScoreRepository from "../Repository/JobSfiaScoreRepository";
-import EmploymentTypeRepository from "../Repository/EmploymentTypeRepository";
-import JobStatusRepository from "../Repository/JobStatusRepository";
-import JobRepository from "../Repository/JobRepository";
+import JobSfiaScoreRepository from "../../Repository/JobSfiaScoreRepository";
+import EmploymentTypeRepository from "../../Repository/EmploymentTypeRepository";
+import JobStatusRepository from "../../Repository/JobStatusRepository";
+import JobRepository from "../../Repository/JobRepository";
 
 export default class JobUpdateUnitOfWork {
   private userRoleRepository: UserRoleRepository;

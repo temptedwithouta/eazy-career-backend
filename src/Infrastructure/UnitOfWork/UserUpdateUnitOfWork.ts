@@ -1,24 +1,18 @@
-import UserRepository from "../Repository/UserRepository";
-import RoleRepository from "../Repository/RoleRepository";
-import UserRoleRepository from "../Repository/UserRoleRepository";
-import SfiaCategoryRepository from "../Repository/SfiaCategoryRepository";
-import UserSfiaScoreRepository from "../Repository/UserSfiaScoreRepository";
-import PositionRepository from "../Repository/PositionRepository";
-import CompanyRepository from "../Repository/CompanyRepository";
-import RecruiterRepository from "../Repository/RecruiterRepository";
 import { Prisma } from "@prisma/client";
-import CandidateRepository from "../Repository/CandidateRepository";
+import CompanyRepository from "../../Repository/CompanyRepository";
+import PositionRepository from "../../Repository/PositionRepository";
+import RecruiterRepository from "../../Repository/RecruiterRepository";
+import RoleRepository from "../../Repository/RoleRepository";
+import UserRepository from "../../Repository/UserRepository";
+import UserRoleRepository from "../../Repository/UserRoleRepository";
+import CandidateRepository from "../../Repository/CandidateRepository";
 
-export default class UserRegisterUnitOfWork {
+export default class UserUpdateUnitOfWork {
   private userRepository: UserRepository;
-
-  private roleRepository: RoleRepository;
 
   private userRoleRepository: UserRoleRepository;
 
-  private sfiaCategoryRepository: SfiaCategoryRepository;
-
-  private userSfiaScoreRepository: UserSfiaScoreRepository;
+  private roleRepository: RoleRepository;
 
   private positionRepository: PositionRepository;
 
@@ -31,13 +25,9 @@ export default class UserRegisterUnitOfWork {
   public constructor(tx: Prisma.TransactionClient) {
     this.userRepository = new UserRepository(tx);
 
-    this.roleRepository = new RoleRepository(tx);
-
     this.userRoleRepository = new UserRoleRepository(tx);
 
-    this.sfiaCategoryRepository = new SfiaCategoryRepository(tx);
-
-    this.userSfiaScoreRepository = new UserSfiaScoreRepository(tx);
+    this.roleRepository = new RoleRepository(tx);
 
     this.positionRepository = new PositionRepository(tx);
 
@@ -52,20 +42,12 @@ export default class UserRegisterUnitOfWork {
     return this.userRepository;
   }
 
-  public getRoleRepository(): RoleRepository {
-    return this.roleRepository;
-  }
-
   public getUserRoleRepository(): UserRoleRepository {
     return this.userRoleRepository;
   }
 
-  public getSfiaCategoryRepository(): SfiaCategoryRepository {
-    return this.sfiaCategoryRepository;
-  }
-
-  public getUserSfiaScoreRepository(): UserSfiaScoreRepository {
-    return this.userSfiaScoreRepository;
+  public getRoleRepository(): RoleRepository {
+    return this.roleRepository;
   }
 
   public getPositionRepository(): PositionRepository {

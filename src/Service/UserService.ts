@@ -19,7 +19,7 @@ import Position from "../Domain/Position";
 import Company from "../Domain/Company";
 import Recruiter from "../Domain/Recruiter";
 import Database from "../Config/Database";
-import UserRegisterUnitOfWork from "../Infrastructure/UserRegisterUnitOfWork";
+import UserRegisterUnitOfWork from "../Infrastructure/UnitOfWork/UserRegisterUnitOfWork";
 import UserFindByIdRequest from "../Model/UserFindByIdRequest";
 import UserRoleRepository from "../Repository/UserRoleRepository";
 import RoleRepository from "../Repository/RoleRepository";
@@ -31,7 +31,7 @@ import CompanyRepository from "../Repository/CompanyRepository";
 import PositionRepository from "../Repository/PositionRepository";
 import UserUpdateRequest from "../Model/UserUpdateRequest";
 import { Prisma } from "@prisma/client";
-import UserUpdateUnitOfWork from "../Infrastructure/UserUpdateUnitOfWork";
+import UserUpdateUnitOfWork from "../Infrastructure/UnitOfWork/UserUpdateUnitOfWork";
 import UserUpdateResponse from "../Model/UserUpdateResponse";
 import UserUpdatePasswordRequest from "../Model/UserUpdatePasswordRequest";
 import UserUpdatePasswordResponse from "../Model/UserUpdatePasswordResponse";
@@ -43,7 +43,7 @@ import UserFindSfiaScoreRequest from "../Model/UserFindSfiaScoreRequest";
 import UserFindSfiaScoreResponse from "../Model/UserFindSfiaScoreResponse";
 import UserUpdateSfiaScoreRequest from "../Model/UserUpdateSfiaScoreRequest";
 import UserUpdateSfiaScoreResponse from "../Model/UserUpdateSfiaScoreResponse";
-import UserUpdateSfiaScoreUnitOfWork from "../Infrastructure/UserUpdateSfiaScoreUnitOfWork";
+import UserUpdateSfiaScoreUnitOfWork from "../Infrastructure/UnitOfWork/UserUpdateSfiaScoreUnitOfWork";
 
 export default class UserService {
   private userRepository: UserRepository;

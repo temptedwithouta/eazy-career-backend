@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
-import UserSfiaScoreRepository from "../Repository/UserSfiaScoreRepository";
-import UserRoleRepository from "../Repository/UserRoleRepository";
-import RoleRepository from "../Repository/RoleRepository";
-import SfiaCategoryRepository from "../Repository/SfiaCategoryRepository";
+import UserSfiaScoreRepository from "../../Repository/UserSfiaScoreRepository";
+import UserRoleRepository from "../../Repository/UserRoleRepository";
+import RoleRepository from "../../Repository/RoleRepository";
+import SfiaCategoryRepository from "../../Repository/SfiaCategoryRepository";
 
 export default class UserUpdateSfiaScoreUnitOfWork {
   private userRoleRepository: UserRoleRepository;
